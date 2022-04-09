@@ -1,0 +1,28 @@
+<%- include("./layouts/head") %>
+    <!-- NAVBAR -->
+<%- include("./layouts/nav") %>
+
+    <main class="main-section">
+        <section class="form-section">
+            <h1>Login</h1>
+            <form action="/login" method="post">
+                <label for="username">Username </label>
+                <input class="class-form" type="text" name="username"  id="username">
+                <label for="password">Password </label>
+                <input class="class-form" type="password" name="password" id="password">                
+                <button class="submit-button" type="submit">Submit</button>
+                <p id="errors">
+                    <% 
+                    if (typeof(error) !== 'undefined') {
+                    %>
+                        <%= error %>
+                    <% 
+                    }
+                    %> 
+                </p>
+            </form>
+        </section>
+    </main>
+
+
+<%- include("./layouts/footer") %>

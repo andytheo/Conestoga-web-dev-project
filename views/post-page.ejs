@@ -1,0 +1,16 @@
+<%- include("./layouts/head") %>
+    <!-- NAVBAR -->
+<%- include("./layouts/nav") %>
+
+<section>
+    <img class="postImage" src="/<%- post.image %>" alt="">
+</section>
+
+<section class="post-page">
+    <div class="full-content">
+    <h1><%- post.title %></h1>
+    <p><%- post.content %></p>
+    </div>
+</section>
+
+<%- include("./layouts/footer") %>

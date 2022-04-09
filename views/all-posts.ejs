@@ -1,0 +1,34 @@
+<%- include("./layouts/head") %>
+    <!-- NAVBAR -->
+<%- include("./layouts/nav") %>
+
+
+    <section class="container all-posts">
+    <h1>All posts</h1>
+        <div class="image-card">
+
+    <%
+        for (let post of allPosts)
+        {
+    %>
+
+                <article class="poster">
+                    <a href="/posts/<%= post.title %>">
+                    <h4><%= post.title %></h4>
+                    <figure class="image-poster">
+                        
+                            <img class="image-spec" src="/<%- post.image %>" alt="page-poster">
+                        </a>
+                        <figcaption class="read-more"><%= post.content.slice(0, 70) %> 
+                            <a href="/posts/<%= post.title %>">Read More</a></figcaption>
+                    </figure>
+                    <a href="">Edit</a> <a href="">Delete</a>
+                </article>
+    <%
+        }
+    %>
+        </div>
+
+    </section>
+
+<%- include("./layouts/footer") %>
