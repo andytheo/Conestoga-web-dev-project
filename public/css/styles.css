@@ -1,5 +1,7 @@
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
 .navigation {
@@ -67,6 +69,8 @@ body {
     background-color: grey;
     padding-inline-start: 0;
     display: none;
+    text-align: left;
+    padding: 5px 0;
 }
 
 .parent-link:hover .child-link {
@@ -74,7 +78,7 @@ body {
 }
 
 .sub-link {
-    padding: 3px 0 7px;
+    /* padding: 3px 0 7px; */
 }
 
 .sub-link:hover {
@@ -143,17 +147,19 @@ main-content {
 .welcome-text {
     text-align: justify;
     line-height: 1.5;
+    text-align: center;
 }
 
 .info {
-    margin-bottom: 50px;
+    text-align: center;
+    margin: 100px;
 }
 
 /* DETAILS */
 .details {
     background-color: #F7F7F7;
     height: 320px;
-    margin: 0 -8px;
+    margin: 50px 0;
 }
 
 .detail-process {
@@ -281,9 +287,22 @@ footer {
     height: 40px;
     width: 280px;
     border: 1px solid grey;
+    font-size: 17px;
+    display: block;
+    margin: 7px 0;
+}
+
+.image-form {
+    height: 40px;
+    width: 280px;
     font-size: 16px;
     display: block;
-    margin-bottom: 20px;
+    margin: 7px 0;
+}
+
+.text-area-form {
+    font-size: 17px;
+    margin: 7px 0;
 }
 
 .class-label {
@@ -328,6 +347,11 @@ footer {
     /* text-align: center; */
 }
 
+.post-title {
+    text-decoration: none;
+    color: black;
+}
+
 .full-content {
     margin: 0 auto;
     text-align: center;
@@ -339,18 +363,20 @@ footer {
 .image-card {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    /* grid-gap: 20px; */
-    /* margin: 20px; */
+    grid-gap: 20px;
+    margin: 20px;
     font-family: sans-serif;
     font-size: 18px;
 }
+
+
 .image-poster {
     padding: 0;
     margin: 0;
 }
 
 .image-spec {
-    width: 400px;
+    width: 300px;
     border: 1px solid black;
 }
 
@@ -360,7 +386,8 @@ footer {
 }
 
 .read-more {
-    width: 400px;
+    width: 350px;
+    line-height: 1.5;
 }
 
 @media (max-width: 990px) {

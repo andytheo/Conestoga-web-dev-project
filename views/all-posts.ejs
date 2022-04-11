@@ -14,15 +14,16 @@
 
                 <article class="poster">
                     <a href="/posts/<%= post.title %>">
-                    <h4><%= post.title %></h4>
+                    <h2 class="post-title"><%= post.title %></h2>
                     <figure class="image-poster">
                         
                             <img class="image-spec" src="/<%- post.image %>" alt="page-poster">
                         </a>
-                        <figcaption class="read-more"><%= post.content.slice(0, 70) %> 
+                        <figcaption class="read-more"><%= post.content.slice(0, 70) %>... 
                             <a href="/posts/<%= post.title %>">Read More</a></figcaption>
                     </figure>
-                    <a href="">Edit</a> <a href="">Delete</a>
+                    <span><a href="/edit/<%= post._id %>">Edit</a></span> 
+                    <span><a href="/delete/<%= post._id %>">Delete</a></span>
                 </article>
     <%
         }

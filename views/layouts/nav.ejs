@@ -5,12 +5,21 @@
         </a>
         <!-- Main menu -->
         <ul class="links">
-            <li class="link"><a href="index.html">Home</a></li>
+            <li class="link"><a href="/">Home</a></li>
             <li class="link parent-link">
                 <a href="/posts">Posts</a>
                 <!-- Sub menu -->
                 <ul class="child-link">
-                    <li class="sub-link"><a href="/">----------</li></a>
+                    <%
+                    if(typeof(allPosts) != 'undefined') {
+                        for (let post of allPosts)
+                        {
+                    %>
+                    <li class="sub-link"><a href="/posts/<%- post.title %>"><%- post.title %></li></a>
+                    <%
+                        }
+                    }
+                    %>
                 </ul>
             </li>
             
