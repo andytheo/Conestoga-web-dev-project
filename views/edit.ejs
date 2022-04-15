@@ -1,30 +1,30 @@
 <%- include("./layouts/head") %>
     <!-- NAVBAR -->
 <%- include("./layouts/nav") %>
-        <section class="form-section">
-            <h1>Create Post</h1>
-            <form action="/edit/<%- post._id %>" method="post" enctype="multipart/form-data">
-                <label for="title">Title </label>
-                <input class="class-form" type="text" name="title" id="title" value="<%- post.title %>">
-                <label for="image">Image </label>
-                <input class="image-form" type="file" name="image" id="image" value="/<%- post.image %>">
-                <label for="content">Content</label><br>
-                <textarea class="text-area-form" name="content" id="" cols="50" rows="20"><%- post.content %></textarea><br><br>              
-                <button class="submit-button" type="submit">Post</button>
-            </form>
-            <% 
-            if (typeof(errors) != 'undefined')
+    <section class="form-section">
+        <h1>Create Post</h1>
+        <form action="/edit/<%- post._id %>" method="post" enctype="multipart/form-data">
+            <label for="title">Title </label>
+            <input class="class-form" type="text" name="title" id="title" value="<%- post.title %>">
+            <label for="image">Image </label>
+            <input class="image-form" type="file" name="image" id="image" value="/<%- post.image %>">
+            <label for="content">Content</label><br>
+            <textarea class="text-area-form" name="content" id="" cols="50" rows="20"><%- post.content %></textarea><br><br>              
+            <button class="submit-button" type="submit">Post</button>
+        </form>
+        <% 
+        if (typeof(errors) != 'undefined')
+        {
+            for (let error of errors)
             {
-                for (let error of errors)
-                {
-            %>
-                <div class="error-section">
-                <p class="errors"> <%= error.msg %></p>
-                </div>
-            <%
-                }
+        %>
+            <div class="error-section">
+            <p class="errors"> <%= error.msg %></p>
+            </div>
+        <%
             }
-            %>
-        </section>
+        }
+        %>
+    </section>
 
 <%- include("./layouts/footer") %>

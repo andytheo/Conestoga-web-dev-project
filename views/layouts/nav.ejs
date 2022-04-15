@@ -1,29 +1,28 @@
  <nav class="navigation">
-        <a href="/" class="brand container">
-            <img  class="logo-image" src="/images/logo.png" alt="logo-image">
-            <div class="logo-text">Storeez</div>
-        </a>
-        <!-- Main menu -->
-        <ul class="links">
-            <li class="link"><a href="/">Home</a></li>
-            <li class="link parent-link">
-                <a href="/posts">Posts</a>
-                <!-- Sub menu -->
-                <ul class="child-link">
-                    <%
-                    if(typeof(allPosts) != 'undefined') {
-                        for (let post of allPosts)
-                        {
-                    %>
-                    <li class="sub-link"><a href="/posts/<%- post.title %>"><%- post.title %></li></a>
-                    <%
-                        }
+    <a href="/" class="brand container">
+        <img  class="logo-image" src="/images/logo.png" alt="logo-image">
+        <div class="logo-text">Storeez</div>
+    </a>
+    <!-- Main menu -->
+    <ul class="links">
+        <li class="link"><a href="/">Home</a></li>
+        <li class="link parent-link">
+            <a href="/posts">Posts</a>
+            <!-- Sub menu -->
+            <ul class="child-link">
+                <%
+                if(typeof(allPosts) != 'undefined') {
+                    for (let post of allPosts)
+                    {
+                %>
+                <li class="sub-link"><a href="/posts/<%- post.title %>"><%- post.title %></li></a>
+                <%
                     }
-                    %>
-                </ul>
-            </li>
+                }
+                %>
+            </ul>
+        </li>
             
-                
-            <li class="link create-post"><a class="post-link" href="/create-post">Create Post</a></li>
-        </ul>
-    </nav>
+        <li class="link create-post"><a class="post-link" href="/create-post">Create Post</a></li>
+    </ul>
+</nav>

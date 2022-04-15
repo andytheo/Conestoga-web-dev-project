@@ -6,13 +6,13 @@ const {check, validationResult} = require ('express-validator');
 const session = require('express-session');
 const path = require('path');
 
+// Multer image middleware
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/images')
   },
   filename: (req, file, cb) => {
-    console.log(file)
     cb(null, Date.now() + path.extname(file.originalname))
   }
 })
@@ -25,6 +25,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 
+// Express session
 app.use(session({
   secret: 'anonymous',
   resave: false,
@@ -82,30 +83,24 @@ app.post('/create-post', upload.single('image'), [
   })
 ], (req, res) => {
 
-  
     const errors = validationResult(req);
     console.log(errors);
 
-    if (!errors.isEmpty())
-    {
+    if (!errors.isEmpty()) {
       res.render('create-post', {errors : errors.array()});
     }
 
-    else 
-    {
-
-  const newPost = {
-    title: req.body.title,
-    content: req.body.content,
-    image: `images/${req.file.filename}`
-  }
+    else {
+      const newPost = {
+        title: req.body.title,
+        content: req.body.content,
+        image: `images/${req.file.filename}`
+    }
       
-  let myPost = new Post(newPost);
-  myPost.save().then(() => {
-    console.log(newPost);
-  })
-  res.redirect('/posts');
-}
+    let myPost = new Post(newPost);
+    myPost.save();
+    res.redirect('/posts');
+  }
 })
 
 app.get('/login', (req, res) => {
@@ -117,20 +112,15 @@ app.post('/login', (req, res) => {
   let password = req.body.password;
 
   Admin.findOne({username : username, password : password}).exec((err, admin) => {
-      console.log(`Error: ${err}`);
-      console.log(`Admin: ${admin}`);
-
-      if (admin) 
-        {
-          req.session.username = admin.username;
-          req.session.userLoggedIn = true;
-          res.redirect('/create-post');
-        }
-        else
-        {
-          res.render('login', {error : "Sorry Login Failed. Please try again!"});
-        }
-    })
+    if (admin) {
+        req.session.username = admin.username;
+        req.session.userLoggedIn = true;
+        res.redirect('/create-post');
+      }
+      else {
+        res.render('login', {error : "Sorry Login Failed. Please try again!"});
+      }
+  })
 })
 
 app.get('/posts', (req, res) => {
@@ -146,10 +136,8 @@ app.get('/posts', (req, res) => {
 })
 
 app.get('/posts/:post', (req, res) => {
-
   let title = _.lowerCase(req.params.post);
   Post.find({}).exec((error, allPosts) => {
-    
     if (error) {
       console.log(error);
     } else {
@@ -157,54 +145,46 @@ app.get('/posts/:post', (req, res) => {
       let savedTitle = _.lowerCase(post.title);
         if (title === savedTitle) {
           res.render("post-page", {post: post})
-        } 
+        } else {
+          console.log("Page not found");
+        }
       });
     }
-    // res.redirect("/posts")
   })
-  
 })
 
-//Delete Page
 app.get('/delete/:id', (req, res) => {  
-    if (req.session.userLoggedIn) {
-        var id = req.params.id;
-        console.log(id);
-        Post.findByIdAndDelete({_id : id}).exec(function (err, post) {
-            console.log(`Error: ${err}`);
-            console.log(`Order: ${post}`);
-            if (post) {
-                res.render ('delete', {message : "Record Deleted Successfully!"});
-            }
-            else {
-                res.render ('delete', {message : "Sorry, Record Not Deleted!"});
-            }
-        })
-    }
-    else {
-        //Otherwise redirect user to login page.
-        res.redirect('/login');
-    }
+  if (req.session.userLoggedIn) {
+    let id = req.params.id;
+    Post.findByIdAndDelete({_id : id}).exec(function (err, post) {
+      if (post) {
+        res.render ('delete', {message : "Record Deleted Successfully!"});
+      }
+      else {
+        res.render ('delete', {message : "Sorry, Record Not Deleted!"});
+      }
+    })
+  }
+  else {
+    res.redirect('/login');
+  }
 })
 
 app.get('/edit/:id', (req, res) => { 
-    if (req.session.userLoggedIn) {
-        var id = req.params.id;
-        console.log(id);
-        Post.findOne({_id : id}).exec(function (err, post) {
-            console.log(`Error: ${err}`);
-            console.log(`Order: ${post}`);
-            if (post) {
-                res.render ('edit', {post : post});
-            }
-            else {
-                res.send ('Ooops! No post with this id');
-            }
-        })
-    }
-    else {
-        res.redirect('/login');
-    }
+  if (req.session.userLoggedIn) {
+    let id = req.params.id;
+    Post.findOne({_id : id}).exec(function (err, post) {
+      if (post) {
+        res.render ('edit', {post : post});
+      }
+      else {
+        res.send ('Sorry! No post with this id');
+      }
+    })
+  }
+  else {
+    res.redirect('/login');
+  }
 })
 
 app.post('/edit/:id', upload.single('image'), [
@@ -217,36 +197,31 @@ app.post('/edit/:id', upload.single('image'), [
   })
 ], (req, res) => { 
     let id = req.params.id;
-  const errors = validationResult(req);
+    const errors = validationResult(req);
     console.log(errors);
 
-    if (!errors.isEmpty())
-    {
+    if (!errors.isEmpty()) {
       if (req.session.userLoggedIn) {
-        console.log(id);
         Post.findOne({_id : id}).exec(function (err, post) {
-            console.log(`Error: ${err}`);
-            console.log(`Order: ${post}`);
-            if (post) {
-                res.render ('edit', {post : post, errors : errors.array()});
-            }
-            else {
-                res.send ('Ooops! No post with this id');
-            }
-        })
+          if (post) {
+            res.render ('edit', {post : post, errors : errors.array()});
+          }
+          else {
+            res.send ('Sorry! No post with this id');
+          }
+      })
     }
     else {
-        res.redirect('/login');
-    }
+      res.redirect('/login');
+      }
     }
 
-    else 
-    {
-    const edittedPost = {
-    title: req.body.title,
-    content: req.body.content,
-    image: `images/${req.file.filename}`
-  }
+    else {
+      const edittedPost = {
+      title: req.body.title,
+      content: req.body.content,
+      image: `images/${req.file.filename}`
+    }
     
     Post.findOne({_id : id}).exec(function(err, post){
       post.title = edittedPost.title;
@@ -256,7 +231,10 @@ app.post('/edit/:id', upload.single('image'), [
     })
     res.render('edit-success', {message: "Edit successful."})
   }
+})
 
+app.get('*', (req, res) => {
+  res.render("error-page")
 })
 
 const PORT = 3000;
